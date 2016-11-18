@@ -138,7 +138,7 @@ defmodule Ueberauth.Strategy.Facebook do
     conn = put_private(conn, :facebook_token, token)
     query = user_query(conn)
     path = "/me?#{query}"
-    case OAuth2.AccessToken.get(token, path) do
+    case Ueberauth.Strategy.Facebook.OAuth.get(token, path) do
       {:ok, %OAuth2.Response{status_code: 401, body: _body}} ->
         set_errors!(conn, [error("token", "unauthorized")])
       {:ok, %OAuth2.Response{status_code: status_code, body: user}}
